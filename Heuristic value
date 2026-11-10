@@ -1,0 +1,62 @@
+import heapq
+
+# State space tree
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F', 'G'],
+    'D': [],
+    'E': [],
+    'F': [],
+    'G': []
+}
+
+# Heuristic values
+h = {
+    'A': 6,
+    'B': 3,
+    'C': 5,
+    'D': 4,
+    'E': 1,
+    'F': 4,
+    'G': 0
+}
+
+def heuristic_search(start, goal):
+    pq = [(h[start], start, [start])]
+    visited = set()
+
+    while pq:
+        _, node, path = heapq.heappop(pq)
+
+        if node in visited:
+            continue
+
+        visited.add(node)
+        print("Visiting:", node)
+
+        if node == goal:
+            print("Goal found!")
+            print("Path:", " -> ".join(path))
+            return
+
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                heapq.heappush(
+                    pq,
+                    (h[neighbor], neighbor, path + [neighbor])
+                )
+
+    print("Goal not found")
+
+heuristic_search('A', 'G')
+
+#output
+Visiting: A
+Visiting: B
+Visiting: E
+Visiting: D
+Visiting: C
+Visiting: G
+Goal found!
+Path: A -> C -> G
