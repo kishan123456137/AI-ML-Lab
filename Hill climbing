@@ -1,0 +1,54 @@
+def hill_climbing(start, goal, graph, h):
+    current = start
+    print("Start:", current)
+
+    while current != goal:
+        neighbors = graph[current]
+
+        if not neighbors:
+            break
+
+        # Select the neighbor with the lowest heuristic value
+        next_node = min(neighbors, key=lambda n: h[n])
+
+        # Stop if the neighbor is not better
+        if h[next_node] >= h[current]:
+            break
+
+        current = next_node
+        print("Move to:", current)
+
+    if current == goal:
+        print("Goal reached!")
+    else:
+        print("Local optimum reached or goal not found.")
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['G'],
+    'F': [],
+    'G': []
+}
+
+# Lower heuristic value means closer to the goal
+h = {
+    'A': 6,
+    'B': 4,
+    'C': 5,
+    'D': 3,
+    'E': 1,
+    'F': 4,
+    'G': 0
+}
+
+hill_climbing('A', 'G', graph, h)
+
+#output
+Start: A
+Move to: B
+Move to: E
+Move to: G
+Goal reached!
